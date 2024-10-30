@@ -1,3 +1,4 @@
 rootProject.name = 'msa-spring-boot'
 
 includeBuild 'eureka-server'
+includeBuild 'ticket-service'

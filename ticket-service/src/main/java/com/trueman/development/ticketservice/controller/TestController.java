@@ -11,8 +11,11 @@ public class TestController {
     @Value("${eureka.instance.instance-id}")
     private String eurekaInstanceId;
 
+    @Value("${temporaryVariable}")
+    private Integer temporaryVariable;
+
     @GetMapping("/test")
     public String test() {
-        return "eurekaInstanceId = " + eurekaInstanceId;
+        return "eurekaInstanceId = " + eurekaInstanceId + ", temporaryVariable = " + temporaryVariable;
     }
 }

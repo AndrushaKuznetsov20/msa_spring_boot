@@ -53,6 +53,32 @@ services:
     networks:
       - network-msa
 
+  order-service:
+    container_name: order-service
+    image: order-service
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=default,docker
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - network-msa
+
+  payment-service:
+    container_name: payment-service
+    image: payment-service
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=default,docker
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+    depends_on:
+      eureka-server:
+        condition: service_started
+    networks:
+      - network-msa
+
   api-gateway:
     container_name: api-gateway
     image: api-gateway

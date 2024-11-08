@@ -60,9 +60,27 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=default,docker
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://order-db:5432/db_order
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Kuznetsov12
     depends_on:
       eureka-server:
         condition: service_started
+    networks:
+      - network-msa
+
+  order-db:
+    image: postgres:latest
+    container_name: order-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=db_order
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Kuznetsov12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - network-msa
 
@@ -73,9 +91,27 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=default,docker
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://payment-db:5432/db_payment
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Kuznetsov12
     depends_on:
       eureka-server:
         condition: service_started
+    networks:
+      - network-msa
+
+  payment-db:
+    image: postgres:latest
+    container_name: payment-db
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=db_payment
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Kuznetsov12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - network-msa
 
@@ -93,6 +129,9 @@ services:
         condition: service_started
     networks:
       - network-msa
+
+volumes:
+  postgres_data:
 
 networks:
   network-msa:

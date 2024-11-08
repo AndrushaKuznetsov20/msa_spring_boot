@@ -20,8 +20,6 @@ public class KafkaOrderController {
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
 
-        kafkaOrderService.sendOrderEvent(order);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(order);
+        return kafkaOrderService.sendOrderEvent(order);
     }
 }

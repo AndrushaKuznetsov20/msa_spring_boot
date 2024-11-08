@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: order-service
+  config:
+    import: configserver:http://localhost:8888
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        acks: 1
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+#    consumer:
+#      group-id: "payment-group-id"
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      properties:
+#        spring:
+#          json:
+#            trusted:
+#              packages: '*'
+
+server:
+  port: 0
+
+topic:
+  send-payment: payment-request-topic
